@@ -33,7 +33,7 @@
 :javascript
   $(document).ready(function(){
     $(".part_element").click(function(){
-      alert("Working...");
+      $("#blog_part").load("/blog_entries/load_part/"+$(this).attr('id'));
   });
   });
 %p
@@ -43,9 +43,10 @@
   %div.add_part
     = link_to 'Add new part to this blog', :controller=>"blog_entries", :action=>"add_part", :id=>@blog_entry.id
 %p
+  
+  %b Content:
+  %br/
   %div#blog_part
-    %b Content:
-    %br/
     = @blog_entry.content
 - @blog_entry.comments.each do |comment|
   %hr/
