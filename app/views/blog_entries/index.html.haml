@@ -1,0 +1,34 @@
+:css
+  #full_size{
+    width: 80%;
+    border: solid black 1px;
+  }
+  .left_align{
+    text-align: left;
+  }
+  th{
+    border-bottom: solid black 1px;
+  }
+%h1 Listing Blog Entries
+
+%table#full_size
+  %tr
+    %th.left_align Subject
+    %th.left_align Content
+    %th.left_align User
+    %th.left_align Show
+    %th.left_align Edit
+    %th.left_align Delete
+
+  - @blog_entries.each do |blog_entry|
+    %tr
+      %td= blog_entry.subject
+      %td= blog_entry.content
+      %td= blog_entry.owner.email
+      %td= link_to 'Show', blog_entry
+      %td= link_to 'Edit', edit_blog_entry_path(blog_entry)
+      %td= link_to 'Delete', blog_entry, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Blog entry', new_blog_entry_path

@@ -171,6 +171,9 @@ body {
 
 #footer {
   padding-bottom: 20px;
+  position:absolute; 
+  bottom:0px;
+  width: 95%;
 }
 
 /* pagination */
@@ -407,4 +410,7 @@ button.button:active, a.button:active {
 }
 .link_button{
   cursor: pointer;
+}
+label{
+  font-weight: bold;
 }

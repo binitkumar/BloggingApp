@@ -1,0 +1,9 @@
+= form_for @comment,:url => '/blog_entries/add_comment' do |f|
+  .field
+    = f.label Comment
+    %br/
+    = f.text_area :content,:rows=>3,:cols=>60
+    = f.hidden_field :user_id,:value=>current_user.id
+    = f.hidden_field :blog_entry_id,:value=> @blog_entry.id
+  .actions
+    = f.submit 'Save'

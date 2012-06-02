@@ -1,0 +1,14 @@
+%h1 Add Part to Blog
+= form_for @part,:url => '/blog_entries/save_part' do |f|
+  .field
+    = f.label 'Subject'
+    %br/
+    = @blog_entry.subject
+    %br/
+  .field
+    = f.label 'Part content'
+    %br/
+    = f.text_area :content,:rows=>3,:cols=>60
+    = f.hidden_field :blog_entry_id,:value=> params[:id]
+  .actions
+    = f.submit 'Save'

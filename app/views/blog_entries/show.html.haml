@@ -1,0 +1,74 @@
+:css
+  .subject{
+    float: left;
+    width: 60%;
+  }
+  .add_part{
+    float: right;
+    width: 35%;
+  }
+  ul{
+    margin: 0; 
+    padding: 0; 
+    list-style-type: none;
+    list-style-image: none; 
+  }
+  
+  li{
+    display: inline; 
+    margin: 4px;	
+  }
+  
+  ul li a {
+    text-decoration:none;
+    margin-top: 4px;
+    padding: 5px 20px 5px 20px; 
+    color: blue;
+    background: gray;
+  }
+  ul li a:hover {
+    color: purple;
+    background: orange; 
+  }
+:javascript
+  $(document).ready(function(){
+    $(".part_element").click(function(){
+      alert("Working...");
+  });
+  });
+%p
+  %div.subject
+  %h1
+    = @blog_entry.subject
+  %div.add_part
+    = link_to 'Add new part to this blog', :controller=>"blog_entries", :action=>"add_part", :id=>@blog_entry.id
+%p
+  %div#blog_part
+    %b Content:
+    %br/
+    = @blog_entry.content
+- @blog_entry.comments.each do |comment|
+  %hr/
+  %b Comment:
+  %br/
+  = comment.content
+  %br/
+  %br/
+%hr/
+= render 'comment_form'
+  
+= link_to 'Edit', edit_blog_entry_path(@blog_entry)
+%br/
+%br/
+= link_to 'Back', blog_entries_path
+%br/
+%br/
+%br/
+%div
+  %ul.parts
+    - counter = 0
+    -  @blog_entry.parts.each do |part|
+    -  counter += 1
+      %li.part_element{ :id=>part.id }
+        %a{:href=>"#"}	  
+          Part #{counter}

@@ -1,4 +1,4 @@
-%h1 My Latest Web App
+%h1 Sample Blogging application
 .block#block-login	
   %h2 Sign in
   .content.login
@@ -9,7 +9,7 @@
     = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form login" }) do |f|
       .group.wat-cf	
         .left= f.label :email, :class => "label right"
- 	    .right= f.text_field :email, :class => "text_field"
+        .right= f.text_field :email, :class => "text_field"
       .group.wat-cf
         .left= f.label :password, :class => "label right"
         .right= f.password_field :password, :class => "text_field"

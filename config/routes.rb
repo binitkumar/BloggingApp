@@ -1,5 +1,8 @@
 Blog::Application.routes.draw do
+  resources :blog_entries
+
   devise_for :users
+  devise_for :users do get '/users/sign_out' => 'devise/sessions#destroy' end
 
   get "home/index"
 
@@ -52,11 +55,11 @@ Blog::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'home#index'
+  root :to => 'blog_entries#index'
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  match ':controller(/:action(/:id))(.:format)'
 end
