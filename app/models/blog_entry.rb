@@ -5,7 +5,6 @@ class BlogEntry < ActiveRecord::Base
   has_many :comments
   
   validates_presence_of :subject
-  validates_presence_of :content
   
   validates_numericality_of :user_id
   

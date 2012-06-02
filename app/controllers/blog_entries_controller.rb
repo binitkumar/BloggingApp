@@ -2,8 +2,11 @@
 class BlogEntriesController < ApplicationController
   # GET /blog_entries
   # GET /blog_entries.json
+  
+  before_filter :authenticate_user!
   def index
-    @blog_entries = current_user.blog_entries
+    #@blog_entries = current_user.blog_entries
+	@blog_entries = BlogEntry.paginate(:page => params[:page],:per_page=>5,:conditions=>["user_id = ?",current_user.id])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @blog_entries }
@@ -40,10 +43,11 @@ class BlogEntriesController < ApplicationController
   # POST /blog_entries
   # POST /blog_entries.json
   def create
-    @blog_entry = BlogEntry.new(params[:blog_entry])
+    @blog_entry = BlogEntry.create(params[:blog_entry])
 
+	Part.create(:blog_entry_id=>@blog_entry.id,:content=>@blog_entry.content)
     respond_to do |format|
-      if @blog_entry.save
+      if @blog_entry
         format.html { redirect_to @blog_entry, notice: 'Blog entry was successfully created.' }
         format.json { render json: @blog_entry, status: :created, location: @blog_entry }
       else
@@ -57,9 +61,18 @@ class BlogEntriesController < ApplicationController
   # PUT /blog_entries/1.json
   def update
     @blog_entry = BlogEntry.find(params[:id])
-
+	@blog_entry.subject = params[:blog_entry][:subject]
+	@blog_entry.save
+	
+	@parts = @blog_entry.parts
+	counter = 1
+	@parts.each do |part|
+	  Part.create(:blog_entry_id=>part.blog_entry_id,:content=>params[("content" + counter.to_s).to_sym])
+	  part.destroy
+	  counter += 1
+	end
     respond_to do |format|
-      if @blog_entry.update_attributes(params[:blog_entry])
+      if @blog_entry
         format.html { redirect_to @blog_entry, notice: 'Blog entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -116,5 +129,41 @@ class BlogEntriesController < ApplicationController
         format.json { render json: @blog_entry.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  def load_part
+    @part = Part.find(params[:id])
+	render :text=> @part.content
+  end
+  
+  def delete_comment
+    comment = Comment.find(params[:id].to_i)
+	@blog_entry = BlogEntry.find(comment.blog_entry_id)
+	comment.destroy
+	respond_to do |format|
+      if @blog_entry
+        format.html { redirect_to @blog_entry, notice: 'Blog part was successfully added.' }
+        format.json { render json: @blog_entry, status: :created, location: @blog_entry }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @blog_entry.errors, status: :unprocessable_entity }
+      end
+    end	
+  end
+  
+  def delete_part
+    part = Part.find(params[:id].to_i)
+	@blog_entry = BlogEntry.find(part.blog_entry_id)
+	part.destroy
+	
+	respond_to do |format|
+      if @blog_entry
+        format.html { redirect_to @blog_entry, notice: 'Blog part was successfully deleted.' }
+        format.json { render json: @blog_entry, status: :created, location: @blog_entry }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @blog_entry.errors, status: :unprocessable_entity }
+      end
+    end	
   end
 end

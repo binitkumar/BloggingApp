@@ -21,7 +21,4 @@ describe BlogEntry do
   it "should validate presence of subject" do
     @blog_entry.should validate_presence_of(:subject)
   end
-  it "should validate presence of content" do
-    @blog_entry.should validate_presence_of(:content)
-  end
 end

@@ -26,9 +26,5 @@
               %p= message
         #main
           = yield
-          #footer
-            .block
-              %p
-                Copyright &copy; #{Time.now.year} Sample Blogging App.
         #sidebar
           =# render 'blog_entries/list'

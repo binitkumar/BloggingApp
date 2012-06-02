@@ -16,11 +16,12 @@
   
   li{
     display: inline; 
-    margin: 4px;	
+    margin: 4px;
   }
   
   ul li a {
     text-decoration:none;
+    font-weight: bold;
     margin-top: 4px;
     padding: 5px 20px 5px 20px; 
     color: blue;
@@ -32,8 +33,13 @@
   }
 :javascript
   $(document).ready(function(){
+    prev_element_id = "#{@blog_entry.parts.first.id}" ;
+    $("#"+prev_element_id).hide();    
     $(".part_element").click(function(){
       $("#blog_part").load("/blog_entries/load_part/"+$(this).attr('id'));
+      $("#"+$(this).attr('id')).hide();
+      $("#"+prev_element_id).show();
+      prev_element_id = $(this).attr('id');
   });
   });
 %p
@@ -41,16 +47,25 @@
   %h1
     = @blog_entry.subject
   %div.add_part
-    = link_to 'Add new part to this blog', :controller=>"blog_entries", :action=>"add_part", :id=>@blog_entry.id
+    %ul
+      %li
+        = link_to 'Add new part to this blog', :controller=>"blog_entries", :action=>"add_part", :id=>@blog_entry.id
 %p
   
   %b Content:
   %br/
   %div#blog_part
-    = @blog_entry.content
+    = @blog_entry.parts.first.content
 - @blog_entry.comments.each do |comment|
   %hr/
-  %b Comment:
+  %br/
+  %div.subject
+    %b Comment:
+  %div.add_part
+    %ul
+      %li
+        %a{:href=>"/blog_entries/delete_comment/#{comment.id}"}
+          Delete
   %br/
   = comment.content
   %br/
@@ -58,7 +73,6 @@
 %hr/
 = render 'comment_form'
   
-= link_to 'Edit', edit_blog_entry_path(@blog_entry)
 %br/
 %br/
 = link_to 'Back', blog_entries_path

@@ -1,0 +1,27 @@
+= form_for @blog_entry do |f|
+  -if @blog_entry.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@blog_entry.errors.count, "error")} prohibited this blog_entry from being saved:"
+      %ul
+        - @blog_entry.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :subject
+    %br/
+    = f.text_field :subject
+  - counter = 0
+  -@blog_entry.parts.each do |part|
+    - counter += 1
+    %div.add_part
+      %ul
+        %li
+          = link_to 'Delete', :controller=>"blog_entries", :action=>"delete_part", :id=>part.id
+    .field
+      = f.label "Part "+counter.to_s
+      %br/
+      = f.text_area :content,:value=>part.content,:cols=>60,:rows=>3,:name=>"content"+counter.to_s
+    = f.hidden_field :user_id,:value=>current_user.id
+    = f.hidden_field :no_of_parts,:value=>counter
+  .actions
+    = f.submit 'Save'

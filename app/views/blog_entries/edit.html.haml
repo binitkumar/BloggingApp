@@ -1,6 +1,42 @@
-%h1 Editing blog_entry
-
-= render 'form'
+:css
+  .subject{
+    float: left;
+    width: 60%;
+  }
+  .add_part{
+    float: right;
+    width: 35%;
+  }
+  ul{
+    margin: 0; 
+    padding: 0; 
+    list-style-type: none;
+    list-style-image: none; 
+  }
+  
+  li{
+    display: inline; 
+    margin: 4px;
+  }
+  
+  ul li a {
+    text-decoration:none;
+    font-weight: bold;
+    margin-top: 4px;
+    padding: 5px 20px 5px 20px; 
+    color: blue;
+    background: gray;
+  }
+  ul li a:hover {
+    color: purple;
+    background: orange; 
+  }
+%h1 Editing Blog Entry
+%div.add_part
+  %ul
+    %li
+      = link_to 'Add new part to this blog', :controller=>"blog_entries", :action=>"add_part", :id=>@blog_entry.id
+= render 'edit_form'
 
 = link_to 'Show', @blog_entry
 \|

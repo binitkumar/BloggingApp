@@ -15,7 +15,7 @@ development:
   database: blog_dev
   pool: 5
   username: root
-  password: root
+  password: mysql
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -28,7 +28,7 @@ test: &test
   database: blog_test
   pool: 5
   username: root
-  password: root
+  password: mysql
   host: localhost
 
 production:
@@ -38,7 +38,7 @@ production:
   database: blog_prod
   pool: 5
   username: root
-  password: root
+  password: mysql
   host: localhost
 
 cucumber:

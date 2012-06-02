@@ -170,7 +170,7 @@ body {
 }
 
 #footer {
-  padding-bottom: 20px;
+  padding-bottom: 0px;
   position:absolute; 
   bottom:0px;
   width: 95%;
